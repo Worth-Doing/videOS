@@ -114,7 +114,8 @@ final class PlayerEngine: MediaPlayerProtocol, ObservableObject {
 
     func setVideoView(_ view: NSView) {
         videoView = view
-        libvlc_media_player_set_nsobject(mediaPlayer, Unmanaged.passUnretained(view).toOpaque())
+        guard let mp = mediaPlayer else { return }
+        libvlc_media_player_set_nsobject(mp, Unmanaged.passUnretained(view).toOpaque())
     }
 
     func open(url: URL) {
@@ -187,42 +188,51 @@ final class PlayerEngine: MediaPlayerProtocol, ObservableObject {
     }
 
     func setAudioTrack(_ trackID: Int) {
-        libvlc_audio_set_track(mediaPlayer, Int32(trackID))
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_track(mp, Int32(trackID))
         currentAudioTrack = trackID
     }
 
     func setSubtitleTrack(_ trackID: Int) {
-        libvlc_video_set_spu(mediaPlayer, Int32(trackID))
+        guard let mp = mediaPlayer else { return }
+        libvlc_video_set_spu(mp, Int32(trackID))
         currentSubtitleTrack = trackID
     }
 
     func loadExternalSubtitle(path: String) -> Bool {
-        libvlc_video_set_subtitle_file(mediaPlayer, path) == 1
+        guard let mp = mediaPlayer else { return false }
+        return libvlc_video_set_subtitle_file(mp, path) == 1
     }
 
     func setSubtitleDelay(_ microseconds: Int64) {
-        libvlc_video_set_spu_delay(mediaPlayer, microseconds)
+        guard let mp = mediaPlayer else { return }
+        libvlc_video_set_spu_delay(mp, microseconds)
     }
 
     func setAudioDelay(_ microseconds: Int64) {
-        libvlc_audio_set_delay(mediaPlayer, microseconds)
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_delay(mp, microseconds)
     }
 
     func toggleMute() {
         isMuted.toggle()
-        libvlc_audio_set_mute(mediaPlayer, isMuted ? 1 : 0)
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_mute(mp, isMuted ? 1 : 0)
     }
 
     func snapshot(path: String, width: UInt32 = 0, height: UInt32 = 0) -> Bool {
-        libvlc_video_take_snapshot(mediaPlayer, 0, path, width, height) == 0
+        guard let mp = mediaPlayer else { return false }
+        return libvlc_video_take_snapshot(mp, 0, path, width, height) == 0
     }
 
     private func applyVolume() {
-        libvlc_audio_set_volume(mediaPlayer, Int32(volume))
+        guard let mp = mediaPlayer else { return }
+        libvlc_audio_set_volume(mp, Int32(volume))
     }
 
     private func applyRate() {
-        libvlc_media_player_set_rate(mediaPlayer, rate)
+        guard let mp = mediaPlayer else { return }
+        libvlc_media_player_set_rate(mp, rate)
     }
 
     func refreshTracks() {
