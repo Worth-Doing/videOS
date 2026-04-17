@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="50%" style="stop-color:#16213e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+
+    <!-- Play button gradient -->
+    <linearGradient id="playGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="50%" style="stop-color:#c23373"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+
+    <!-- Glass shine -->
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:white;stop-opacity:0.25"/>
+      <stop offset="50%" style="stop-color:white;stop-opacity:0.05"/>
+      <stop offset="100%" style="stop-color:white;stop-opacity:0"/>
+    </linearGradient>
+
+    <!-- Glow filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Shadow -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#e94560" flood-opacity="0.4"/>
+    </filter>
+
+    <!-- Inner shadow for depth -->
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="4"/>
+      <feComposite operator="out" in="SourceGraphic"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feComposite operator="over" in="SourceGraphic"/>
+    </filter>
+
+    <!-- Film strip pattern -->
+    <pattern id="filmStrip" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect width="60" height="60" fill="none"/>
+      <rect x="5" y="5" width="12" height="12" rx="2" fill="white" opacity="0.03"/>
+    </pattern>
+
+    <clipPath id="roundedClip">
+      <rect x="0" y="0" width="1024" height="1024" rx="228" ry="228"/>
+    </clipPath>
+  </defs>
+
+  <!-- Main rounded square -->
+  <g clip-path="url(#roundedClip)">
+    <!-- Background -->
+    <rect width="1024" height="1024" fill="url(#bgGrad)"/>
+
+    <!-- Subtle film pattern -->
+    <rect width="1024" height="1024" fill="url(#filmStrip)"/>
+
+    <!-- Ambient glow behind play button -->
+    <ellipse cx="530" cy="520" rx="220" ry="220" fill="#e94560" opacity="0.15" filter="url(#glow)"/>
+    <ellipse cx="530" cy="520" rx="160" ry="160" fill="#8b5cf6" opacity="0.1" filter="url(#glow)"/>
+
+    <!-- Outer ring -->
+    <circle cx="512" cy="512" r="280" fill="none" stroke="white" stroke-opacity="0.08" stroke-width="2"/>
+    <circle cx="512" cy="512" r="240" fill="none" stroke="white" stroke-opacity="0.05" stroke-width="1.5"/>
+
+    <!-- Glass circle behind play -->
+    <circle cx="512" cy="512" r="200" fill="white" fill-opacity="0.06"/>
+    <circle cx="512" cy="512" r="200" fill="none" stroke="white" stroke-opacity="0.12" stroke-width="2"/>
+
+    <!-- Play triangle -->
+    <g filter="url(#shadow)">
+      <path d="M 440 370 L 440 654 L 660 512 Z" fill="url(#playGrad)"/>
+    </g>
+
+    <!-- Play triangle inner highlight -->
+    <path d="M 440 370 L 440 512 L 660 512 Z" fill="white" opacity="0.1"/>
+
+    <!-- Glass overlay on top half -->
+    <rect y="0" width="1024" height="480" fill="url(#shine)"/>
+
+    <!-- Top-left "V" watermark -->
+    <text x="80" y="160" font-family="-apple-system, SF Pro Display, Helvetica Neue, Arial" font-size="88" font-weight="800" fill="white" opacity="0.08" letter-spacing="-2">V</text>
+
+    <!-- Bottom text -->
+    <text x="512" y="870" text-anchor="middle" font-family="-apple-system, SF Pro Display, Helvetica Neue, Arial" font-size="72" font-weight="700" fill="white" opacity="0.7" letter-spacing="12">videOS</text>
+    <text x="512" y="920" text-anchor="middle" font-family="-apple-system, SF Pro Display, Helvetica Neue, Arial" font-size="28" font-weight="400" fill="white" opacity="0.3" letter-spacing="6">PLAYER</text>
+
+    <!-- Subtle border -->
+    <rect x="1" y="1" width="1022" height="1022" rx="227" ry="227" fill="none" stroke="white" stroke-opacity="0.1" stroke-width="2"/>
+  </g>
+</svg>
