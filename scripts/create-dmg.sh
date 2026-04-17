@@ -46,6 +46,14 @@ cp "$BINARY" "$MACOS/${APP_NAME}"
 cp Resources/Info.plist "$CONTENTS/Info.plist"
 cp Resources/icon.icns "$RESOURCES/${APP_NAME}.icns"
 
+# Bundle yt-dlp
+YTDLP_PATH=$(which yt-dlp 2>/dev/null)
+if [ -n "$YTDLP_PATH" ]; then
+    echo "  Bundling yt-dlp..."
+    cp "$YTDLP_PATH" "$MACOS/yt-dlp"
+    chmod +x "$MACOS/yt-dlp"
+fi
+
 echo "  Bundling libVLC..."
 cp "$VLC_LIB/libvlc.dylib" "$FRAMEWORKS/"
 cp "$VLC_LIB/libvlc.5.dylib" "$FRAMEWORKS/"
@@ -82,6 +90,12 @@ echo "  Signing frameworks..."
 for dylib in "$FRAMEWORKS"/*.dylib; do
     sign_file "$dylib"
 done
+
+# Sign bundled yt-dlp if present
+if [ -f "$MACOS/yt-dlp" ]; then
+    echo "  Signing yt-dlp..."
+    sign_file "$MACOS/yt-dlp"
+fi
 
 if [ -d "$RESOURCES/plugins" ]; then
     total=$(find "$RESOURCES/plugins" -name "*.dylib" | wc -l | tr -d ' ')

@@ -3,6 +3,7 @@ import SwiftUI
 enum SidebarSection: String, CaseIterable {
     case library = "Library"
     case playlists = "Playlists"
+    case youtube = "YouTube"
     case streams = "Streams"
     case bookmarks = "Bookmarks"
 
@@ -10,6 +11,7 @@ enum SidebarSection: String, CaseIterable {
         switch self {
         case .library: return "folder.fill"
         case .playlists: return "music.note.list"
+        case .youtube: return "play.rectangle.fill"
         case .streams: return "globe"
         case .bookmarks: return "bookmark.fill"
         }
@@ -183,6 +185,8 @@ struct Sidebar: View {
             return streamService.recentStreams.isEmpty ? nil : streamService.recentStreams.count
         case .playlists:
             return playlistManager.playlists.isEmpty ? nil : playlistManager.playlists.count
+        case .youtube:
+            return nil
         case .bookmarks:
             return nil
         }
@@ -193,6 +197,7 @@ struct Sidebar: View {
         case .library: return .blue.opacity(0.7)
         case .streams: return .green.opacity(0.7)
         case .playlists: return .purple.opacity(0.7)
+        case .youtube: return .red.opacity(0.7)
         case .bookmarks: return .orange.opacity(0.7)
         }
     }

@@ -7,6 +7,7 @@ final class AppState: ObservableObject {
     let playlistManager: PlaylistManager
     let bookmarkService: BookmarkService
     let streamService: StreamService
+    let youtubeService: YouTubeService
     let playerVM: PlayerViewModel
     let libraryVM: LibraryViewModel
     let playlistVM: PlaylistViewModel
@@ -17,12 +18,14 @@ final class AppState: ObservableObject {
         let playlistManager = PlaylistManager()
         let bookmarkService = BookmarkService()
         let streamService = StreamService()
+        let youtubeService = YouTubeService()
 
         self.engine = engine
         self.libraryManager = libraryManager
         self.playlistManager = playlistManager
         self.bookmarkService = bookmarkService
         self.streamService = streamService
+        self.youtubeService = youtubeService
 
         self.playerVM = PlayerViewModel(
             engine: engine,
@@ -49,7 +52,8 @@ struct VideOSApp: App {
                 playerVM: state.playerVM,
                 libraryVM: state.libraryVM,
                 playlistVM: state.playlistVM,
-                streamService: state.streamService
+                streamService: state.streamService,
+                youtubeService: state.youtubeService
             )
             .onAppear {
                 appDelegate.playerViewModel = state.playerVM

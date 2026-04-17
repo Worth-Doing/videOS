@@ -5,6 +5,7 @@ struct MainWindow: View {
     @ObservedObject var libraryVM: LibraryViewModel
     @ObservedObject var playlistVM: PlaylistViewModel
     @ObservedObject var streamService: StreamService
+    @ObservedObject var youtubeService: YouTubeService
 
     @State private var selectedSection: SidebarSection = .library
 
@@ -56,6 +57,10 @@ struct MainWindow: View {
         case .playlists:
             PlaylistView(viewModel: playlistVM) { item in
                 playerVM.open(item: item)
+            }
+        case .youtube:
+            YouTubeView(youtubeService: youtubeService) { fileURL in
+                playerVM.openURL(fileURL)
             }
         case .streams:
             StreamInputView(streamService: streamService) { url in
